@@ -41,7 +41,7 @@ export default function OnboardingWizard() {
     handleNextStep()
   }
 
-  const handleCustomerComplete = (customerData: CustomerData) => {
+  const handleCustomerComplete = (customerData: { name: string; email: string; reviewLink?: string }) => {
     updateOnboardingData({ customer: customerData })
     handleNextStep()
   }
