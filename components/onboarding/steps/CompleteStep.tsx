@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { Check, ArrowLeft, ChevronRight, Loader2 } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { OnboardingData } from '@/types/onboarding'
+import { OnboardingData } from '../OnboardingWizard'
 
 interface CompleteStepProps {
   onboardingData: OnboardingData

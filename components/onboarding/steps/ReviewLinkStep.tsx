@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label'
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Checkbox } from '@/components/ui/checkbox'
-import { ReviewType } from '@/types/onboarding'
+import { ReviewType } from '@/types/review'
 
 interface ReviewLinkStepProps {
   onNext: (reviewLink: string) => void

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { ArrowRight, ArrowLeft, Star, Globe } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { ReviewType } from '@/types/onboarding'
+import { ReviewType } from '@/types/review'
 
 interface ReviewTypeStepProps {
   onNext: (reviewType: ReviewType) => void

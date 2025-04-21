@@ -12,12 +12,13 @@ components=(
   "ReviewTypeStep.tsx"
   "ReviewPlatformsStep.tsx"
   "ReviewLinkStep.tsx"
-  "WelcomeStep.tsx"
-  "CompleteStep.tsx"
 )
 
 # Prefer files in the steps/ directory
 for component in "${components[@]}"; do
+  echo "Checking for duplicates of $component..."
+  
+  # Find all occurrences of this component
   files=($(find ./components -name "$component"))
   
   # If we found multiple instances

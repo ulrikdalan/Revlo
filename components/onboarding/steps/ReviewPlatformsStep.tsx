@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { CheckCircle, Search, ThumbsUp, Star, MessageCircle, HelpCircle } from 'lucide-react'
-import { ReviewPlatform } from '@/types/onboarding'
+import { ReviewPlatform } from '@/types/review'
 
 interface ReviewPlatformsStepProps {
   onComplete: (platforms: ReviewPlatform[]) => void
