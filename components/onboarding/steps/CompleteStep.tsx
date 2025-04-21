@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { Check, ArrowLeft, ChevronRight, Loader2 } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { OnboardingData } from '../OnboardingWizard'
+import { OnboardingData } from '@/types/onboarding'
 
 interface CompleteStepProps {
   onboardingData: OnboardingData
@@ -59,32 +59,49 @@ export default function CompleteStep({
           </div>
         </div>
 
-        <div className="flex items-start space-x-3">
-          <div className="bg-green-100 rounded-full p-1 mt-0.5">
-            <Check className="h-4 w-4 text-green-600" />
+        {onboardingData.customer && (
+          <div className="flex items-start space-x-3">
+            <div className="bg-green-100 rounded-full p-1 mt-0.5">
+              <Check className="h-4 w-4 text-green-600" />
+            </div>
+            <div>
+              <p className="font-medium text-gray-700">Kundeinformasjon</p>
+              <p className="text-sm text-gray-600">
+                {onboardingData.customer.name} - {onboardingData.customer.email}
+              </p>
+            </div>
           </div>
-          <div>
-            <p className="font-medium text-gray-700">Anmeldelsesplattformer</p>
-            <p className="text-sm text-gray-600">
-              {formatPlatforms(onboardingData.reviewPlatforms)}
-            </p>
-          </div>
-        </div>
+        )}
 
-        <div className="flex items-start space-x-3">
-          <div className="bg-green-100 rounded-full p-1 mt-0.5">
-            <Check className="h-4 w-4 text-green-600" />
+        {onboardingData.reviewPlatforms && onboardingData.reviewPlatforms.length > 0 && (
+          <div className="flex items-start space-x-3">
+            <div className="bg-green-100 rounded-full p-1 mt-0.5">
+              <Check className="h-4 w-4 text-green-600" />
+            </div>
+            <div>
+              <p className="font-medium text-gray-700">Anmeldelsesplattformer</p>
+              <p className="text-sm text-gray-600">
+                {formatPlatforms(onboardingData.reviewPlatforms)}
+              </p>
+            </div>
           </div>
-          <div>
-            <p className="font-medium text-gray-700">Anmeldelsestype</p>
-            <p className="text-sm text-gray-600">
-              {onboardingData.reviewType === 'google' && 'Google anmeldelser'}
-              {onboardingData.reviewType === 'trustpilot' && 'Trustpilot'}
-              {onboardingData.reviewType === 'custom' && 'Egen lenke'}
-              {!onboardingData.reviewType && 'Ingen valgt'}
-            </p>
+        )}
+
+        {onboardingData.reviewType && (
+          <div className="flex items-start space-x-3">
+            <div className="bg-green-100 rounded-full p-1 mt-0.5">
+              <Check className="h-4 w-4 text-green-600" />
+            </div>
+            <div>
+              <p className="font-medium text-gray-700">Anmeldelsestype</p>
+              <p className="text-sm text-gray-600">
+                {onboardingData.reviewType === 'google' && 'Google anmeldelser'}
+                {onboardingData.reviewType === 'trustpilot' && 'Trustpilot'}
+                {onboardingData.reviewType === 'custom' && 'Egen lenke'}
+              </p>
+            </div>
           </div>
-        </div>
+        )}
 
         {onboardingData.reviewLink && (
           <div className="flex items-start space-x-3">

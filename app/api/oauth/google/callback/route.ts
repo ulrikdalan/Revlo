@@ -230,4 +230,6 @@ async function getGoogleBusinessPlaceId(accessToken: string): Promise<{ place_id
     console.error("Error getting Place ID:", error);
     return null;
   }
-} 
+}
+
+export const dynamic = 'force-dynamic' 

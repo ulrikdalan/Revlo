@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { createClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
+import { dynamicConfig } from '../_helpers/route-config'
+
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 type GoogleReview = {
   author_name: string;

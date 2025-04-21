@@ -265,4 +265,6 @@ async function fetchGoogleReviews(placeId: string, accessToken: string): Promise
     console.error("Error fetching Google reviews:", error);
     return null;
   }
-} 
+}
+
+export const dynamic = 'force-dynamic' 

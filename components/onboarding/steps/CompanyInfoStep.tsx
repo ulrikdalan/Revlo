@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label'
 import { ArrowLeft, ArrowRight, Building, User, Briefcase } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
-import { OnboardingData } from '../OnboardingWizard'
+import { OnboardingData } from '../types'
 
 interface CompanyInfoStepProps {
   initialData: OnboardingData;
@@ -59,7 +59,7 @@ export default function CompanyInfoStep({ initialData, onComplete, onBack }: Com
       <div>
         <h2 className="text-2xl font-semibold text-gray-800">Fortell oss om din bedrift</h2>
         <p className="text-gray-600 mt-1">
-          Vi trenger litt informasjon for å tilpasse Revlo til din bedrift
+          Vi trenger litt informasjon for å tilpasse løsningen til din bedrift
         </p>
       </div>
 

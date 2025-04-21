@@ -4,132 +4,106 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowRight, ArrowLeft } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { cn } from '@/lib/utils'
+import { CustomerData } from '@/types/onboarding' // Import from central file
 
 interface CustomerStepProps {
-  onNext: (data: { companyName: string; contactName: string; industry: string }) => void
+  onNext: (customerData: CustomerData) => void
   onBack: () => void
-  initialData?: {
-    companyName?: string
-    contactName?: string
-    industry?: string
-  }
 }
 
-export default function CustomerStep({ onNext, onBack, initialData = {} }: CustomerStepProps) {
-  const [companyName, setCompanyName] = useState(initialData.companyName || '')
-  const [contactName, setContactName] = useState(initialData.contactName || '')
-  const [industry, setIndustry] = useState(initialData.industry || '')
-  const [errors, setErrors] = useState({
-    companyName: '',
-    contactName: '',
-    industry: ''
+export function CustomerStep({ onNext, onBack }: CustomerStepProps) {
+  const [customerData, setCustomerData] = useState<CustomerData>({
+    name: '',
+    email: ''
   })
 
-  const validateForm = () => {
-    const newErrors = {
-      companyName: companyName.trim() ? '' : 'Firmanavn er påkrevd',
-      contactName: contactName.trim() ? '' : 'Kontaktperson er påkrevd',
-      industry: industry.trim() ? '' : 'Bransje er påkrevd'
+  const [errors, setErrors] = useState<{ name?: string; email?: string }>({})
+
+  const validateForm = (): boolean => {
+    const newErrors: typeof errors = {}
+
+    if (!customerData.name.trim()) {
+      newErrors.name = 'Navn er påkrevd'
     }
-    
+
+    if (!customerData.email.trim()) {
+      newErrors.email = 'E-post er påkrevd'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerData.email)) {
+      newErrors.email = 'Ugyldig e-post format'
+    }
+
     setErrors(newErrors)
-    return !Object.values(newErrors).some(error => error)
+    return Object.keys(newErrors).length === 0
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    
     if (validateForm()) {
       onNext({
-        companyName: companyName.trim(),
-        contactName: contactName.trim(),
-        industry: industry.trim()
+        name: customerData.name,
+        email: customerData.email
       })
+    }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setCustomerData((prev) => ({ ...prev, [name]: value }))
+
+    if (errors[name as keyof typeof errors]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }))
     }
   }
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: 20 }}
+      initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
-      transition={{ duration: 0.3 }}
-      className="space-y-6"
+      exit={{ opacity: 0, x: -50 }}
+      className="space-y-6 py-2"
     >
-      <div>
-        <h2 className="text-2xl font-semibold text-gray-800">Fortell oss om din bedrift</h2>
-        <p className="text-gray-600 mt-1">
-          Vi trenger litt informasjon for å tilpasse Revlo til din bedrift
-        </p>
+      <div className="text-center space-y-2 mb-4">
+        <h3 className="text-xl font-medium text-gray-800">Legg til din første kunde</h3>
+        <p className="text-gray-600">La oss gjøre det enkelt for deg å komme i gang</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
-          <Label htmlFor="companyName" className={cn(errors.companyName && "text-red-500")}>
-            Firmanavn
-          </Label>
+          <Label htmlFor="name">Navn</Label>
           <Input
-            id="companyName"
-            placeholder="Bedriftens navn"
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
-            className={cn(errors.companyName && "border-red-500 focus-visible:ring-red-500")}
+            id="name"
+            name="name"
+            placeholder="Ola Nordmann"
+            value={customerData.name}
+            onChange={handleChange}
+            className={errors.name ? 'border-red-500' : ''}
           />
-          {errors.companyName && (
-            <p className="text-red-500 text-sm">{errors.companyName}</p>
-          )}
+          {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="contactName" className={cn(errors.contactName && "text-red-500")}>
-            Kontaktperson
-          </Label>
+          <Label htmlFor="email">E-post</Label>
           <Input
-            id="contactName"
-            placeholder="Ditt navn"
-            value={contactName}
-            onChange={(e) => setContactName(e.target.value)}
-            className={cn(errors.contactName && "border-red-500 focus-visible:ring-red-500")}
+            id="email"
+            name="email"
+            type="email"
+            placeholder="ola@bedrift.no"
+            value={customerData.email}
+            onChange={handleChange}
+            className={errors.email ? 'border-red-500' : ''}
           />
-          {errors.contactName && (
-            <p className="text-red-500 text-sm">{errors.contactName}</p>
-          )}
+          {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="industry" className={cn(errors.industry && "text-red-500")}>
-            Bransje
-          </Label>
-          <Input
-            id="industry"
-            placeholder="F.eks. Frisør, Restaurant, Eiendomsmegler"
-            value={industry}
-            onChange={(e) => setIndustry(e.target.value)}
-            className={cn(errors.industry && "border-red-500 focus-visible:ring-red-500")}
-          />
-          {errors.industry && (
-            <p className="text-red-500 text-sm">{errors.industry}</p>
-          )}
-        </div>
-        
-        <div className="pt-4 flex justify-between">
-          <Button
-            type="button"
-            onClick={onBack}
-            variant="outline"
-            className="flex items-center"
-          >
+        <div className="flex items-center justify-between pt-6">
+          <Button type="button" onClick={onBack} variant="outline" className="flex items-center">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Tilbake
           </Button>
-          
-          <Button
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white"
-          >
+
+          <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white">
             Fortsett
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
@@ -137,4 +111,4 @@ export default function CustomerStep({ onNext, onBack, initialData = {} }: Custo
       </form>
     </motion.div>
   )
-} 
+}

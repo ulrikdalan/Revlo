@@ -9,8 +9,6 @@ import ReviewForm from './ReviewForm'
 import SendRemindersButton from './SendRemindersButton'
 import RecentExternalReviews from './RecentExternalReviews'
 import { User } from '@supabase/supabase-js'
-
-export const dynamicConfig = 'force-dynamic';
 export const revalidate = 0;
 
 export default function ReviewManagementPage() {

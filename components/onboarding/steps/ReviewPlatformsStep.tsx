@@ -6,14 +6,12 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { CheckCircle, Search, ThumbsUp, Star, MessageCircle, HelpCircle } from 'lucide-react'
-
-// Define review platform types
-export type Platform = 'google' | 'facebook' | 'trustpilot' | 'yelp' | 'other'
+import { ReviewPlatform } from '@/types/onboarding'
 
 interface ReviewPlatformsStepProps {
-  onComplete: (platforms: Platform[]) => void
+  onComplete: (platforms: ReviewPlatform[]) => void
   onBack: () => void
-  initialPlatforms?: Platform[]
+  initialPlatforms?: ReviewPlatform[]
 }
 
 export function ReviewPlatformsStep({ 
@@ -21,42 +19,42 @@ export function ReviewPlatformsStep({
   onBack, 
   initialPlatforms = []
 }: ReviewPlatformsStepProps) {
-  const [selectedPlatforms, setSelectedPlatforms] = useState<Platform[]>(initialPlatforms)
+  const [selectedPlatforms, setSelectedPlatforms] = useState<ReviewPlatform[]>(initialPlatforms)
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({})
 
   const platforms = [
     {
-      id: 'google' as Platform,
+      id: 'google' as ReviewPlatform,
       name: 'Google Reviews',
       logo: '/images/google.svg',
       fallbackIcon: <Search className="h-6 w-6 text-blue-500" />
     },
     {
-      id: 'facebook' as Platform,
+      id: 'facebook' as ReviewPlatform,
       name: 'Facebook',
       logo: '/images/facebook.svg',
       fallbackIcon: <ThumbsUp className="h-6 w-6 text-blue-600" />
     },
     {
-      id: 'trustpilot' as Platform,
+      id: 'trustpilot' as ReviewPlatform,
       name: 'Trustpilot',
       logo: '/images/trustpilot.svg',
       fallbackIcon: <Star className="h-6 w-6 text-green-500" />
     },
     {
-      id: 'yelp' as Platform,
+      id: 'yelp' as ReviewPlatform,
       name: 'Yelp',
       logo: '/images/yelp.svg',
       fallbackIcon: <MessageCircle className="h-6 w-6 text-red-600" />
     },
     {
-      id: 'other' as Platform,
+      id: 'other' as ReviewPlatform,
       name: 'Other',
       fallbackIcon: <HelpCircle className="h-6 w-6 text-gray-500" />
     }
   ]
 
-  const togglePlatform = (platform: Platform) => {
+  const togglePlatform = (platform: ReviewPlatform) => {
     setSelectedPlatforms(prev => {
       if (prev.includes(platform)) {
         return prev.filter(p => p !== platform)
@@ -85,9 +83,9 @@ export function ReviewPlatformsStep({
       className="space-y-6"
     >
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold">Select Your Review Platforms</h2>
+        <h2 className="text-2xl font-bold">Velg dine anmeldelsesplattformer</h2>
         <p className="text-muted-foreground">
-          Choose the platforms where you want to collect and manage reviews.
+          Velg plattformene du vil samle og administrere anmeldelser fra.
         </p>
       </div>
 
@@ -128,15 +126,15 @@ export function ReviewPlatformsStep({
 
       <div className="flex justify-between pt-4">
         <Button variant="outline" onClick={onBack}>
-          Back
+          Tilbake
         </Button>
         <Button
           onClick={handleContinue}
           disabled={selectedPlatforms.length === 0}
         >
-          Continue
+          Fortsett
         </Button>
       </div>
     </motion.div>
   )
-} 
+}

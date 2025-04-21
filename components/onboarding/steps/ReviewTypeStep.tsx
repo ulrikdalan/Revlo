@@ -2,136 +2,125 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { CheckCircle2, AlertCircle } from 'lucide-react'
+import { Card } from '@/components/ui/card'
+import { ArrowRight, ArrowLeft, Star, Globe } from 'lucide-react'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
+import { ReviewType } from '@/types/onboarding'
 
-export interface ReviewTypeStepProps {
-  onNext: (selectedPlatforms: string[]) => void
+interface ReviewTypeStepProps {
+  onNext: (reviewType: ReviewType) => void
   onBack: () => void
+  initialValue?: ReviewType
 }
 
-const reviewPlatforms = [
-  {
-    id: 'google',
-    title: 'Google',
-    description: 'Connect with Google Business reviews',
-    icon: (
-      <Image
-        src="/images/google.svg"
-        alt="Google"
-        width={32}
-        height={32}
-        className="text-[#4285F4]"
-      />
-    ),
-  },
-  {
-    id: 'trustpilot',
-    title: 'Trustpilot',
-    description: 'Connect with Trustpilot reviews',
-    icon: (
-      <Image
-        src="/trustpilot.svg"
-        alt="Trustpilot"
-        width={32}
-        height={32}
-      />
-    ),
-  },
-  {
-    id: 'yelp',
-    title: 'Yelp',
-    description: 'Connect with Yelp reviews',
-    icon: (
-      <Image
-        src="/yelp.svg"
-        alt="Yelp"
-        width={32}
-        height={32}
-      />
-    ),
-  },
-]
+interface ReviewTypeOption {
+  id: ReviewType
+  title: string
+  description: string
+  icon: React.ReactNode
+}
 
-export function ReviewTypeStep({ onNext, onBack }: ReviewTypeStepProps) {
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([])
+export function ReviewTypeStep({ onNext, onBack, initialValue }: ReviewTypeStepProps) {
+  const [selectedType, setSelectedType] = useState<ReviewType | undefined>(initialValue)
 
-  const togglePlatform = (platformId: string) => {
-    setSelectedPlatforms((prev) => 
-      prev.includes(platformId)
-        ? prev.filter(id => id !== platformId)
-        : [...prev, platformId]
-    )
-  }
+  const reviewTypeOptions: ReviewTypeOption[] = [
+    {
+      id: 'google',
+      title: 'Google Anmeldelser',
+      description: 'Få kunder til å gi anmeldelser på Google som øker din synlighet i søkeresultater.',
+      icon: <Star className="h-8 w-8 text-yellow-500" />
+    },
+    {
+      id: 'trustpilot',
+      title: 'Trustpilot',
+      description: 'Be om anmeldelser på Trustpilot for å styrke din bedrifts omdømme.',
+      icon: <Star className="h-8 w-8 text-green-500" />
+    },
+    {
+      id: 'custom',
+      title: 'Egendefinert',
+      description: 'Sett opp en tilpasset anmeldelsesløsning for din egen nettside eller annen plattform.',
+      icon: <Globe className="h-8 w-8 text-blue-500" />
+    }
+  ]
 
   const handleContinue = () => {
-    if (selectedPlatforms.length > 0) {
-      onNext(selectedPlatforms)
+    if (selectedType) {
+      onNext(selectedType)
     }
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
-      className="space-y-6"
+    <motion.div 
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      className="space-y-6 py-2"
     >
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold">Connect review platforms</h1>
-        <p className="text-muted-foreground">
-          Select the review platforms you want to connect with your account.
+      <div className="text-center space-y-2">
+        <h3 className="text-xl font-medium text-gray-800">
+          Hvilken type anmeldelser vil du samle?
+        </h3>
+        <p className="text-gray-600">
+          Velg plattformen som passer best for din bedrift.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {reviewPlatforms.map((platform) => (
-          <Card
-            key={platform.id}
-            className={`cursor-pointer transition-all ${
-              selectedPlatforms.includes(platform.id)
-                ? "border-primary ring-2 ring-primary/20"
-                : "hover:border-primary/50"
+      <div className="grid gap-4">
+        {reviewTypeOptions.map((option) => (
+          <Card 
+            key={option.id}
+            className={`p-4 cursor-pointer transition-all ${
+              selectedType === option.id 
+                ? 'ring-2 ring-blue-500 bg-blue-50' 
+                : 'hover:bg-gray-50'
             }`}
-            onClick={() => togglePlatform(platform.id)}
+            onClick={() => setSelectedType(option.id)}
           >
-            <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
-              <div className="h-12 w-12 flex items-center justify-center">
-                {platform.icon}
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 mt-1">
+                {option.icon}
               </div>
-              <div>
-                <h3 className="font-medium text-lg">{platform.title}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">
-                  {platform.description}
-                </p>
+              <div className="flex-grow">
+                <h4 className="font-medium text-gray-900">{option.title}</h4>
+                <p className="text-sm text-gray-600 mt-1">{option.description}</p>
               </div>
-              {selectedPlatforms.includes(platform.id) && (
-                <CheckCircle2 className="absolute top-3 right-3 h-5 w-5 text-primary" />
-              )}
-            </CardContent>
+              <div className="flex-shrink-0 self-center">
+                <div 
+                  className={`w-5 h-5 rounded-full border ${
+                    selectedType === option.id 
+                      ? 'border-blue-500 bg-blue-500' 
+                      : 'border-gray-300'
+                  } flex items-center justify-center`}
+                >
+                  {selectedType === option.id && (
+                    <div className="w-2 h-2 rounded-full bg-white" />
+                  )}
+                </div>
+              </div>
+            </div>
           </Card>
         ))}
       </div>
 
-      {selectedPlatforms.length === 0 && (
-        <div className="flex items-center gap-2 text-amber-500">
-          <AlertCircle className="h-4 w-4" />
-          <span className="text-sm">Please select at least one platform</span>
-        </div>
-      )}
-
-      <div className="flex justify-between pt-4">
-        <Button onClick={onBack} variant="outline">
-          Back
-        </Button>
+      <div className="flex items-center justify-between pt-4">
         <Button 
-          onClick={handleContinue} 
-          disabled={selectedPlatforms.length === 0}
+          type="button" 
+          onClick={onBack}
+          variant="outline"
+          className="flex items-center"
         >
-          Continue
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Tilbake
+        </Button>
+        
+        <Button 
+          onClick={handleContinue}
+          disabled={!selectedType}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          Fortsett
+          <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </div>
     </motion.div>

@@ -207,4 +207,6 @@ function redirectWithError(errorMessage: string): NextResponse {
   errorUrl.searchParams.set('error', errorMessage);
   
   return NextResponse.redirect(errorUrl);
-} 
+}
+
+export const dynamic = 'force-dynamic' 

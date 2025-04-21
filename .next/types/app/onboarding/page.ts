@@ -1,4 +1,4 @@
-// File: /Users/ulrikdalanfjellstad/Desktop/review/app/onboarding/page.tsx
+// File: /Users/ulrikdalanfjellstad/Desktop/Revlo/app/onboarding/page.tsx
 import * as entry from '../../../../app/onboarding/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

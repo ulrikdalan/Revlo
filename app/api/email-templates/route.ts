@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import { dynamicConfig } from '../_helpers/route-config'
+
+// Add at the top of your file
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 // GET: Hent alle e-postmaler for innlogget bruker
 export async function GET(request: NextRequest) {

@@ -1,8 +1,8 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { ArrowRight, Star, Users, ChartLine } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { Button } from '@/components/ui/button'
+import { ArrowRight, MessageCircle, Star, ChartBar } from 'lucide-react'
 
 interface WelcomeStepProps {
   onNext: () => void
@@ -11,110 +11,60 @@ interface WelcomeStepProps {
 export default function WelcomeStep({ onNext }: WelcomeStepProps) {
   const features = [
     {
+      icon: <MessageCircle className="h-6 w-6 text-blue-500" />,
+      title: 'Samle anmeldelser',
+      description: 'Få flere anmeldelser fra fornøyde kunder ved å sende automatiske forespørsler.',
+    },
+    {
       icon: <Star className="h-6 w-6 text-yellow-500" />,
-      title: "Automatiserte forespørsler",
-      description: "Send personlige forespørsler om anmeldelser til dine kunder og øk antallet 5-stjerners tilbakemeldinger."
+      title: 'Forbedre omdømme',
+      description: 'Bygge tillit og troverdighet gjennom kundeanmeldelser på tvers av plattformer.',
     },
     {
-      icon: <ChartLine className="h-6 w-6 text-blue-500" />,
-      title: "Økt synlighet",
-      description: "Få flere Google-anmeldelser og forbedre din synlighet i lokale søkeresultater."
+      icon: <ChartBar className="h-6 w-6 text-green-500" />,
+      title: 'Innsikt og analyse',
+      description: 'Få verdifull innsikt i kundenes opplevelser og ta databaserte beslutninger.',
     },
-    {
-      icon: <Users className="h-6 w-6 text-green-500" />,
-      title: "Automatisk oppfølging",
-      description: "La Revlo følge opp dine kunder som ikke har svart, helt automatisk."
-    }
   ]
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2
-      }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 }
-  }
-
   return (
-    <div className="space-y-8">
-      <div className="text-center">
-        <motion.div
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <img 
-            src="/logo.png" 
-            alt="Revlo Logo" 
-            className="w-24 h-24 object-contain mx-auto"
-            onError={(e) => e.currentTarget.style.display = 'none'} 
-          />
-        </motion.div>
-        
-        <motion.h2 
-          className="text-2xl font-bold text-gray-800 mt-6 mb-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        >
-          Velkommen til Revlo
-        </motion.h2>
-        
-        <motion.p
-          className="text-gray-600 max-w-md mx-auto"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-        >
-          Vi hjelper deg å samle flere anmeldelser på autopilot.
-        </motion.p>
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.3 }}
+      className="space-y-6"
+    >
+      <div className="text-center space-y-2">
+        <h2 className="text-2xl font-bold text-gray-800">Velkommen</h2>
+        <p className="text-gray-600">
+          La oss hjelpe deg med å samle flere gode anmeldelser for din bedrift
+        </p>
       </div>
-      
-      <motion.div
-        className="space-y-4"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
+
+      <div className="grid gap-4 py-4">
         {features.map((feature, index) => (
-          <motion.div 
-            key={index}
-            className="flex items-start p-4 bg-white rounded-lg border border-gray-100 shadow-sm"
-            variants={itemVariants}
-          >
-            <div className="mr-4 p-2 bg-gray-50 rounded-full">
+          <div key={index} className="flex items-start space-x-4">
+            <div className="bg-blue-50 p-3 rounded-lg">
               {feature.icon}
             </div>
             <div>
               <h3 className="font-medium text-gray-900">{feature.title}</h3>
               <p className="text-sm text-gray-600 mt-1">{feature.description}</p>
             </div>
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
-      
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 0.5 }}
-      >
-        <Button 
+      </div>
+
+      <div className="pt-4 flex justify-end">
+        <Button
           onClick={onNext}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium"
-          size="lg"
+          className="bg-blue-600 hover:bg-blue-700 text-white"
         >
           Kom i gang
           <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
-      </motion.div>
-    </div>
+      </div>
+    </motion.div>
   )
 } 

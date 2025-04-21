@@ -39,4 +39,6 @@ export async function POST(request: Request) {
     console.error('Error in onboarding feedback API:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-} 
+}
+
+export const dynamic = 'force-dynamic' 

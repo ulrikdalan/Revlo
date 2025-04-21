@@ -6,8 +6,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { ReviewType } from './ReviewTypeStep'
 import { Checkbox } from '@/components/ui/checkbox'
+import { ReviewType } from '@/types/onboarding'
 
 interface ReviewLinkStepProps {
   onNext: (reviewLink: string) => void
@@ -27,10 +27,7 @@ export default function ReviewLinkStep({
   const [error, setError] = useState('')
 
   const validateAndContinue = () => {
-    // Reset error
     setError('')
-    
-    // If the user has a review link, validate it
     if (hasReviewLink && reviewLink.trim()) {
       try {
         new URL(reviewLink)
@@ -39,36 +36,25 @@ export default function ReviewLinkStep({
         setError('Vennligst oppgi en gyldig URL (inkluder https://)')
       }
     } else {
-      // If no review link or user doesn't have a review page, proceed without a link
       onNext('')
     }
   }
 
-  // Get the title based on review type
   const getTitle = () => {
     switch (reviewType) {
-      case 'google':
-        return 'Legg til din Google-anmeldelseslenke'
-      case 'trustpilot':
-        return 'Legg til din Trustpilot-anmeldelseslenke'
-      case 'custom':
-        return 'Legg til din anmeldelseslenke'
-      default:
-        return 'Legg til anmeldelseslenke'
+      case 'google': return 'Legg til din Google-anmeldelseslenke'
+      case 'trustpilot': return 'Legg til din Trustpilot-anmeldelseslenke'
+      case 'custom': return 'Legg til din anmeldelseslenke'
+      default: return 'Legg til anmeldelseslenke'
     }
   }
 
-  // Get the description based on review type
   const getDescription = () => {
     switch (reviewType) {
-      case 'google':
-        return 'Lenken hvor kundene dine kan legge igjen en Google-anmeldelse'
-      case 'trustpilot':
-        return 'Lenken hvor kundene dine kan legge igjen en Trustpilot-anmeldelse'
-      case 'custom':
-        return 'Lenken hvor kundene dine kan legge igjen en anmeldelse'
-      default:
-        return 'Lenken hvor kundene dine kan legge igjen en anmeldelse'
+      case 'google': return 'Lenken hvor kundene dine kan legge igjen en Google-anmeldelse'
+      case 'trustpilot': return 'Lenken hvor kundene dine kan legge igjen en Trustpilot-anmeldelse'
+      case 'custom': return 'Lenken hvor kundene dine kan legge igjen en anmeldelse'
+      default: return 'Lenken hvor kundene dine kan legge igjen en anmeldelse'
     }
   }
 
@@ -81,9 +67,9 @@ export default function ReviewLinkStep({
       className="space-y-6"
     >
       <div>
-        <h2 className="text-2xl font-semibold text-gray-800">Klar for å få anmeldelser?</h2>
+        <h2 className="text-2xl font-semibold text-gray-800">{getTitle()}</h2>
         <p className="text-gray-600 mt-1">
-          Du kan sende vurderingsforespørsler via e-post når du er klar. Du kan legge til anmeldelseslenken din senere.
+          {getDescription()}
         </p>
       </div>
 
@@ -164,4 +150,4 @@ export default function ReviewLinkStep({
       </div>
     </motion.div>
   )
-} 
+}

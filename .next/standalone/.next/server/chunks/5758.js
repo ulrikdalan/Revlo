@@ -1,0 +1,1 @@
+"use strict";exports.id=5758,exports.ids=[5758],exports.modules={5758:(e,s,t)=>{t.r(s),t.d(s,{$$typeof:()=>d,__esModule:()=>a,default:()=>l});let r=(0,t(86843).createProxy)(String.raw`/Users/ulrikdalanfjellstad/Desktop/Revlo/app/dashboard/reviews/RecentExternalReviews.tsx`),{__esModule:a,$$typeof:d}=r,l=r.default}};

@@ -129,7 +129,6 @@ async function getEmailStatistics(userId: string): Promise<EmailStats> {
 }
 
 // Page configuration
-export const dynamicConfig = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function OverviewPage() {
